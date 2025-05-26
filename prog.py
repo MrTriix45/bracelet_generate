@@ -11,7 +11,6 @@ import os
 #pyinstaller --onefile --add-data "img/359346.ico;img" --windowed  --name bracelet_taille prog.py
 def resource_path(relative_path):
     try:
-        # PyInstaller crée un dossier temporaire accessible via _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
@@ -215,8 +214,6 @@ def build_main_label_entry(container):
         sticky = "nsew"
 
     )
-
-
 
 if __name__ == "__main__":
     main().mainloop()
