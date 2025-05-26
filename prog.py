@@ -87,11 +87,19 @@ def build_main_field(master):
     for b in range(2):
         r2.columnconfigure(b, weight = 0) #r2 - col 0, 1, 2
 
+    r3 = tk.Frame(frm_main, style = "frame_style.TFrame")
+    r3.grid(
+        row = 3,
+        column = 0,
+        sticky = "nsew"
+    )
+
     # Call Building Functions Into Container (Frame)
 
     build_header_image(r0)
     build_buttons(r1)
     build_main_label_entry(r2)
+    build_footer(r3)
 
 def build_buttons(container):
 
@@ -214,6 +222,18 @@ def build_main_label_entry(container):
         sticky = "nsew"
 
     )
+
+def build_footer(container):
+    container.rowconfigure(0, weight=1)
+    container.columnconfigure(0, weight=1)
+
+    footer_label = tk.Label(container, text="Copyright - WALIBI BELGIUM - v0.2", anchor="center", justify="center")
+    footer_label.grid(
+        row=0,
+        column=0,
+        sticky="nsew"
+    )
+
 
 if __name__ == "__main__":
     main().mainloop()
