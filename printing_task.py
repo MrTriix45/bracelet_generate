@@ -19,17 +19,17 @@ def get_data_entries(data_entries):
     messagebox.showinfo("Infos :", f"Prenom : {first_data}\nName : {name_data}\nTaille : {size_data} cm\nGSM : {tel_data}")
 
     content = "^XA\n"
-    content += f"^FO275,650^A0R,50,50^FDPrenom : {first_data}^FS\n"
-    content += f"^FO225,650^A0R,50,50^FDNom : {name_data}^FS\n"
-    content += f"^FO175,650^A0R,50,50^FDTaille : {size_data} cm^FS\n"
-    content += f"^FO100,650^A0R,50,50^FDGSM : {tel_data}^FS\n"
+    content += f"^FO225,950^A0R,40,40^FDPrenom : {first_data}^FS\n"
+    content += f"^FO175,950^A0R,40,40^FDNom : {name_data}^FS\n"
+    content += f"^FO125,950^A0R,40,40^FDTaille : {size_data} cm^FS\n"
+    content += f"^FO75,950^A0R,40,40^FDGSM : {tel_data}^FS\n"
 
     # Impression des attractions ligne par ligne
-    x_position = 275
-    y_position = 1300
+    x_position = 225
+    y_position = 1450
     for line in file:
-        content += f"^FO{x_position},{y_position}^A0R,25,25^FD{line}^FS\n"
-        x_position -= 25
+        content += f"^FO{x_position},{y_position}^A0R,40,25^FD{line}^FS\n"
+        x_position -= 50
 
     content += "^XZ"
 
