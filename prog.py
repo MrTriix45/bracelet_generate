@@ -39,7 +39,7 @@ def build_main_field(master):
     # Build Style DEFAULT Frame
 
     style = tk.Style()
-    style.configure("frame_style.TFrame", background="grey")
+    style.configure("frame_style.TFrame", background="blue")
     style.configure("r0_style.TFrame", background="red")
     style.configure("r1_style.TFrame", background="green")
 
@@ -87,7 +87,7 @@ def build_main_field(master):
     for b in range(2):
         r2.columnconfigure(b, weight = 0) #r2 - col 0, 1, 2
 
-    r3 = tk.Frame(frm_main, style = "frame_style.TFrame")
+    r3 = tk.Frame(frm_main, style = "none")
     r3.grid(
         row = 3,
         column = 0,
@@ -227,7 +227,7 @@ def build_footer(container):
     container.rowconfigure(0, weight=1)
     container.columnconfigure(0, weight=1)
 
-    footer_label = tk.Label(container, text="Copyright - WALIBI BELGIUM - v0.2", anchor="center", justify="center")
+    footer_label = tk.Label(container, text="© Copyright - WALIBI BELGIUM - v0.2", anchor="center", justify="center")
     footer_label.grid(
         row=0,
         column=0,
