@@ -18,11 +18,16 @@ def get_data_entries(data_entries):
 
     messagebox.showinfo("Infos :", f"Prenom : {first_data}\nName : {name_data}\nTaille : {size_data} cm\nGSM : {tel_data}")
 
+    qr_data = "123456"
+
     content = "^XA\n"
     content += f"^FO250,950^A0R,25,25^FDPrenom : {first_data}^FS\n"
     content += f"^FO225,950^A0R,25,25^FDNom : {name_data}^FS\n"
     content += f"^FO200,950^A0R,25,25^FDTaille : {size_data} cm^FS\n"
     content += f"^FO175,950^A0R,25,25^FDGSM : {tel_data}^FS\n"
+
+    # QR code (positionné à droite pour éviter de gêner le texte)
+    content += "^FO100,100^BQN,2,6^FDLA," + qr_data + "^FS\n"
 
     # Impression des attractions ligne par ligne
     x_position = 250

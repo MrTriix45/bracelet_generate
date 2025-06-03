@@ -23,7 +23,6 @@ def tgo_size_file(size_value: int):
     else:
         raise ValueError(f"Aucune catégorie trouvée pour la valeur: {size_value}")
 
-
 def load_file(path_dir):
 
     # Exist File Words.txt in my dir .\

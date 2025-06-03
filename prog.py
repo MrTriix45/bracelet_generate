@@ -42,6 +42,8 @@ def build_main_field(master):
     style.configure("frame_style.TFrame", background="blue")
     style.configure("r0_style.TFrame", background="red")
     style.configure("r1_style.TFrame", background="green")
+    style.configure("r2_style.TFrame", background="yellow")
+    style.configure("r3_style.TFrame", background ="dark")
 
     # Build Main Frame
 
@@ -51,21 +53,21 @@ def build_main_field(master):
         fill = BOTH
     )
 
-    for i in range(3):
-        frm_main.rowconfigure(i)
+    for i in range(4):
+        frm_main.rowconfigure(i) # 0, 1, 2, 3
         frm_main.columnconfigure(0, weight=1)
 
     frm_main.rowconfigure(2, weight=1)
     # Build 3 row - Into _ frm_main
 
-    r0 = tk.Frame(frm_main, borderwidth=5, relief="solid", style = "none")
+    r0 = tk.Frame(frm_main, borderwidth=5, relief="solid", style = "r0_style.TFrame")
     r0.grid(
         row = 0,
         column = 0,
         sticky = "nsew"
     )
 
-    r1 = tk.Frame(frm_main, borderwidth=5, relief="solid", style = "r1_style.TFrame")
+    r1 = tk.Frame(frm_main, style = "r1_style.TFrame")
     r1.grid(
         row = 1,
         column = 0,
@@ -76,18 +78,18 @@ def build_main_field(master):
     build_buttons(r1)
 
 
-    r2 = tk.Frame(frm_main, style = "frame_style.TFrame")
+    r2 = tk.Frame(frm_main, style = "r2_style.TFrame")
     r2.grid(
         row = 2,
         column = 0,
         sticky = "nsew"
     )
-    for a in range(3):
+    for a in range(4):
         r2.rowconfigure(a, weight = 0) #r2 - row 0, 1, 2, 3
-    for b in range(2):
+    for b in range(3):
         r2.columnconfigure(b, weight = 0) #r2 - col 0, 1, 2
 
-    r3 = tk.Frame(frm_main, style = "none")
+    r3 = tk.Frame(frm_main, style = "r3_style.TFrame")
     r3.grid(
         row = 3,
         column = 0,
@@ -102,26 +104,41 @@ def build_main_field(master):
     build_footer(r3)
 
 def build_buttons(container):
+    but_padx = 3
+    but_pady = 3
+    but_width = 1
 
+    style_but = tk.Style()
+    style_but.configure("TButton", background="grey", width = but_width, relief = "raised")
+
+    buttons = {
+        "FR"
+    }
     fr_button = tk.Button(container, text = "FR")
     fr_button.grid(
         row = 0,
         column = 0,
-        sticky = "nsew"
+        sticky = "nsew",
+        padx = but_padx,
+        pady = but_pady
     )
 
-    fr_button = tk.Button(container, text="NL")
-    fr_button.grid(
+    nl_button = tk.Button(container, text="NL")
+    nl_button.grid(
         row = 0,
         column = 1,
-        sticky = "nsew"
+        sticky = "nsew",
+        padx = but_padx,
+        pady = but_pady
     )
 
-    fr_button = tk.Button(container, text="EN")
-    fr_button.grid(
+    en_button = tk.Button(container, text="EN")
+    en_button.grid(
         row = 0,
         column = 2,
-        sticky = "nsew"
+        sticky = "nsew",
+        padx = but_padx,
+        pady = but_pady
     )
 
 # Build Image Logo - Header
@@ -146,7 +163,7 @@ def build_header_image(container):
 
 def build_main_label_entry(container):
 
-    size_lbl = 10
+    size_lbl = 13
     size_ety = 35
 
     # Label
@@ -155,25 +172,25 @@ def build_main_label_entry(container):
     first_label.grid(
         row = 0,
         column = 0,
-        sticky = "ns"
+        sticky = "nsew"
     )
     name_label = tk.Label(container, text="Nom :", width = size_lbl)
     name_label.grid(
         row=1,
         column=0,
-        sticky = "ns"
+        sticky = "nsew"
     )
     size_label = tk.Label(container, text="Taille (cm) :", width = size_lbl)
     size_label.grid(
         row=2,
         column=0,
-        sticky = "ns"
+        sticky = "nsew"
     )
     gsm_label = tk.Label(container, text="Téléphone :", width=size_lbl)
     gsm_label.grid(
         row=3,
         column=0,
-        sticky="ns"
+        sticky="nsew"
     )
 
     # Entry
