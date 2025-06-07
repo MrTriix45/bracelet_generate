@@ -4,7 +4,6 @@ from pathlib import Path
 from unidecode import unidecode
 import monmoteur as m
 
-
 def get_data_entries(data_entries):
     global ftgo
     first_data = data_entries["First"].get()
@@ -12,8 +11,7 @@ def get_data_entries(data_entries):
     size_data = data_entries["Size"].get()
     tel_data = data_entries["GSM"].get()
 
-    i_size = size_data = int(data_entries["Size"].get())
-
+    i_size = int(size_data)
     file = m.load_file(m.tgo_size_file(i_size))
 
     messagebox.showinfo("Infos :", f"Prenom : {first_data}\nName : {name_data}\nTaille : {size_data} cm\nGSM : {tel_data}")
@@ -21,15 +19,20 @@ def get_data_entries(data_entries):
     qr_data = "123456"
 
     content = "^XA\n"
+
+    # 1. Appel du label ZPL stocké (fond du ticket)
+    content += "^XFR:BRTAILLE.ZPL^FS\n"
+
+    # 2. Ton contenu par-dessus (données utilisateur)
     content += f"^FO250,950^A0R,25,25^FDPrenom : {first_data}^FS\n"
     content += f"^FO225,950^A0R,25,25^FDNom : {name_data}^FS\n"
     content += f"^FO200,950^A0R,25,25^FDTaille : {size_data} cm^FS\n"
     content += f"^FO175,950^A0R,25,25^FDGSM : {tel_data}^FS\n"
 
-    # QR code (positionné à droite pour éviter de gêner le texte)
-    content += "^FO100,100^BQN,2,6^FDLA," + qr_data + "^FS\n"
+    # QR Code
+    content += f"^FO100,100^BQN,2,6^FDLA,{qr_data}^FS\n"
 
-    # Impression des attractions ligne par ligne
+    # Liste dynamique en bas du label
     x_position = 250
     y_position = 1450
     for line in file:
