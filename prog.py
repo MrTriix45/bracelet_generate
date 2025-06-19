@@ -3,11 +3,18 @@ from tkinter import *
 import ttkbootstrap as tk
 from PIL import Image, ImageTk
 import printing_task as pt
-import monmoteur
+import monmoteur as m
 import sys
 import os
+import gettext
 
+lang = 'fr'
 
+localedir = os.path.join(os.path.abspath("."), "locales")
+lang_trans = gettext.translation("base", localedir=localedir, languages=[lang], fallback=True)
+lang_trans.install()
+
+_ = lang_trans.gettext
 #pyinstaller --onefile --add-data "img/359346.ico;img" --windowed  --name bracelet_taille prog.py
 def resource_path(relative_path):
     try:
@@ -16,8 +23,9 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
-
+root = None
 def main():
+    global root
     root = tk.Window(
         title= 'Générateur Bracelet',
     )
@@ -33,6 +41,23 @@ def main():
     build_main_field(root) # Call for build my field of my Window
 
     return root
+
+def translate_prog(lang_code):
+    global _
+    lang = gettext.translation(
+        domain="base",
+        localedir="locales",
+        languages=[lang_code],
+        fallback=True
+    )
+    lang.install()
+    _ = lang.gettext
+    rebuild_ui()
+
+def rebuild_ui():
+    for widget in root.winfo_children():
+        widget.destroy()
+    build_main_field(root)
 
 def build_main_field(master):
 
@@ -109,37 +134,14 @@ def build_buttons(container):
     but_width = 1
 
     style_but = tk.Style()
-    style_but.configure("TButton", background="grey", width = but_width, relief = "raised")
+    style_but.configure("TButton", background="grey", width=but_width, relief="raised")
 
-    buttons = {
-        "FR"
-    }
-    fr_button = tk.Button(container, text = "FR")
-    fr_button.grid(
-        row = 0,
-        column = 0,
-        sticky = "nsew",
-        padx = but_padx,
-        pady = but_pady
-    )
-
-    nl_button = tk.Button(container, text="NL")
-    nl_button.grid(
-        row = 0,
-        column = 1,
-        sticky = "nsew",
-        padx = but_padx,
-        pady = but_pady
-    )
-
-    en_button = tk.Button(container, text="EN")
-    en_button.grid(
-        row = 0,
-        column = 2,
-        sticky = "nsew",
-        padx = but_padx,
-        pady = but_pady
-    )
+    langs = {"FR": "fr", "NL": "nl", "EN": "en"}
+    col = 0
+    for label, code in langs.items():
+        lang_button = tk.Button(container, text=label, command=lambda c=code: translate_prog(c))
+        lang_button.grid(row=0, column=col, sticky="nsew", padx=but_padx, pady=but_pady)
+        col += 1
 
 # Build Image Logo - Header
 
@@ -168,25 +170,25 @@ def build_main_label_entry(container):
 
     # Label
 
-    first_label = tk.Label(container, text = "Prénom :", width = size_lbl)
+    first_label = tk.Label(container, text=_("Prénom :"), width = size_lbl)
     first_label.grid(
         row = 0,
         column = 0,
         sticky = "nsew"
     )
-    name_label = tk.Label(container, text="Nom :", width = size_lbl)
+    name_label = tk.Label(container, text=_("Nom :"), width = size_lbl)
     name_label.grid(
         row=1,
         column=0,
         sticky = "nsew"
     )
-    size_label = tk.Label(container, text="Taille (cm) :", width = size_lbl)
+    size_label = tk.Label(container, text=_("Taille (cm) :"), width = size_lbl)
     size_label.grid(
         row=2,
         column=0,
         sticky = "nsew"
     )
-    gsm_label = tk.Label(container, text="Téléphone :", width=size_lbl)
+    gsm_label = tk.Label(container, text=_("Téléphone :"), width=size_lbl)
     gsm_label.grid(
         row=3,
         column=0,
@@ -231,7 +233,7 @@ def build_main_label_entry(container):
     #  Button Printing
 
     container.columnconfigure(2, weight=1)
-    print_button = tk.Button(container, text = "Print", command = lambda: pt.get_data_entries(all_entries))
+    print_button = tk.Button(container, text =_("Imprimer"), command = lambda: pt.get_data_entries(all_entries))
     print_button.grid(
         column = 2,
         row = 0,
