@@ -4,6 +4,7 @@ from pathlib import Path
 from unidecode import unidecode
 import monmoteur as m
 
+
 def get_data_entries(data_entries):
     global ftgo
     first_data = data_entries["First"].get()
@@ -15,7 +16,13 @@ def get_data_entries(data_entries):
     i_size = int(size_data)
     file = m.load_file(m.tgo_size_file(i_size))
 
-    messagebox.showinfo("Infos :", f"Prenom : {first_data}\nName : {name_data}\nTaille : {size_data} cm\nGSM : {tel_data}")
+    messagebox.showinfo(
+        "Infos :",
+        f"Prenom : {first_data}\nName : {name_data}\nTaille : {size_data} cm\nGSM : {tel_data}",
+    )
+    file_log = open("log.txt", "w")
+    print(f"Prenom : {first_data}\nName : {name_data}\nTaille : {size_data} cm\nGSM : {tel_data}", file=file_log)
+    file_log.close()
 
     # 1. Start ZBL
     content = "^XA\n"
@@ -26,13 +33,17 @@ def get_data_entries(data_entries):
     # 3. Placement du contenu dynamiquement sur mon bracelet
     content += f"^FO180,1500^A0B,{size_print},{size_print}^FDPrenom : {first_data}^FS\n"
     content += f"^FO150,1500^A0B,{size_print},{size_print}^FDNom : {name_data}^FS\n"
-    content += f"^FO120,1500^A0B,{size_print},{size_print}^FDTaille : {size_data} cm^FS\n"
+    content += (
+        f"^FO120,1500^A0B,{size_print},{size_print}^FDTaille : {size_data} cm^FS\n"
+    )
     content += f"^FO200,1500^A0B,{size_print},{size_print}^FDGSM : {tel_data}^FS\n"
 
     x_position = 250
     y_position = 1000
     for line in file:
-        content += f"^FO{x_position},{y_position}^A0R,{size_print},{size_print}^FD{line}^FS\n"
+        content += (
+            f"^FO{x_position},{y_position}^A0R,{size_print},{size_print}^FD{line}^FS\n"
+        )
         x_position -= 25
 
     # 4. Fin ZBL
@@ -46,7 +57,9 @@ def get_data_entries(data_entries):
         messagebox.showinfo("PRINTER FOUND :", "Printer found")
         hPrinter = win32print.OpenPrinter(printer_name)
         try:
-            hJob = win32print.StartDocPrinter(hPrinter, 1, ("Bracelet Print", None, "RAW"))
+            hJob = win32print.StartDocPrinter(
+                hPrinter, 1, ("Bracelet Print", None, "RAW")
+            )
             win32print.StartPagePrinter(hPrinter)
             win32print.WritePrinter(hPrinter, content.encode("ascii"))
             win32print.EndPagePrinter(hPrinter)
@@ -55,3 +68,4 @@ def get_data_entries(data_entries):
             win32print.ClosePrinter(hPrinter)
     else:
         messagebox.showinfo("PRINTER NOT FOUND :", "Printer not found")
+

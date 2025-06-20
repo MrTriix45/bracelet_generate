@@ -2,6 +2,7 @@ from pathlib import Path
 from unidecode import unidecode
 import win32print
 
+
 def tgo_size_file(size_value: int):
     if 50 <= size_value < 80:
         return "Categ_Taille/Cat 1.txt"
@@ -24,20 +25,24 @@ def tgo_size_file(size_value: int):
     else:
         raise ValueError(f"Aucune catégorie trouvée pour la valeur: {size_value}")
 
-def load_file(path_file):
 
+def load_file(path_file):
     # Exist File Words.txt in my dir .\
 
     file = Path(path_file)
     if not file.exists():
         raise FileNotFoundError("File not Found")
     else:
-        ftgo = (unidecode(file.read_text("utf-8", "ignore")))
+        ftgo = unidecode(file.read_text("utf-8", "ignore"))
     return ftgo.splitlines()
+
 
 def printer_exist(printer_name):
     # Check the printer installed in Local
-    printers = [printers[2] for printers in win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL)]
+    printers = [
+        printers[2]
+        for printers in win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL)
+    ]
 
     # return the list
     return printer_name in printers
