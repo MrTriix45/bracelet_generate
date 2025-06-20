@@ -4,6 +4,18 @@ import win32print
 
 
 def tgo_size_file(size_value: int):
+    """
+        Retourne le chemin du fichier de catégorie de taille en fonction de la valeur donnée.
+
+        Args:
+            size_value (int): La taille en centimètres.
+
+        Returns:
+            str: Le chemin relatif du fichier correspondant à la catégorie de taille.
+
+        Raises:
+            ValueError: Si aucune catégorie ne correspond à la taille donnée.
+        """
     if 50 <= size_value < 80:
         return "Categ_Taille/Cat 1.txt"
     elif 80 <= size_value < 90:
@@ -27,6 +39,18 @@ def tgo_size_file(size_value: int):
 
 
 def load_file(path_file):
+    """
+        Charge un fichier texte, enlève les accents, puis retourne les lignes sous forme de liste.
+
+        Args:
+            path_file (str): Le chemin du fichier à charger.
+
+        Returns:
+            list[str]: Liste des lignes du fichier, sans accents.
+
+        Raises:
+            FileNotFoundError: Si le fichier n'existe pas.
+        """
     # Exist File Words.txt in my dir .\
 
     file = Path(path_file)
@@ -38,6 +62,15 @@ def load_file(path_file):
 
 
 def printer_exist(printer_name):
+    """
+        Vérifie si une imprimante est installée localement sous le nom spécifié.
+
+        Args:
+            printer_name (str): Le nom de l'imprimante à vérifier.
+
+        Returns:
+            bool: True si l'imprimante est installée localement, sinon False.
+        """
     # Check the printer installed in Local
     printers = [
         printers[2]
