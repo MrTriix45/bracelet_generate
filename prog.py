@@ -8,6 +8,7 @@ import sys
 import os
 import gettext
 
+#pyinstaller --onefile --add-data "img/359346.ico;img" --windowed  --name bracelet_taille prog.py
 lang = 'fr'
 
 localedir = os.path.join(os.path.abspath("."), "locales")
@@ -15,7 +16,7 @@ lang_trans = gettext.translation("base", localedir=localedir, languages=[lang], 
 lang_trans.install()
 
 _ = lang_trans.gettext
-#pyinstaller --onefile --add-data "img/359346.ico;img" --windowed  --name bracelet_taille prog.py
+
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
@@ -29,7 +30,7 @@ def main():
     root = tk.Window(
         title= 'Générateur Bracelet',
     )
-    root.geometry("500x450")
+    root.geometry("650x500")
 
     # Build Icon
 
@@ -64,11 +65,11 @@ def build_main_field(master):
     # Build Style DEFAULT Frame
 
     style = tk.Style()
-    style.configure("frame_style.TFrame", background="blue")
-    style.configure("r0_style.TFrame", background="red")
-    style.configure("r1_style.TFrame", background="green")
-    style.configure("r2_style.TFrame", background="yellow")
-    style.configure("r3_style.TFrame", background ="dark")
+    # style.configure("frame_style.TFrame", background="blue")
+    # style.configure("r0_style.TFrame", background="red")
+    # style.configure("r1_style.TFrame", background="green")
+    # style.configure("r2_style.TFrame", background="yellow")
+    # style.configure("r3_style.TFrame", background ="dark")
 
     # Build Main Frame
 
@@ -168,66 +169,52 @@ def build_main_label_entry(container):
     size_lbl = 13
     size_ety = 35
 
-    # Label
+    label_text = {
+        "first_label": "Prénom :",
+        "name_label": "Nom :",
+        "size_label": "Taille (cm) :",
+        "gsm_label": "Téléphone :"
+    }
+    lb_col = 0
+    lb_row = 0
 
-    first_label = tk.Label(container, text=_("Prénom :"), width = size_lbl)
-    first_label.grid(
-        row = 0,
-        column = 0,
-        sticky = "nsew"
-    )
-    name_label = tk.Label(container, text=_("Nom :"), width = size_lbl)
-    name_label.grid(
-        row=1,
-        column=0,
-        sticky = "nsew"
-    )
-    size_label = tk.Label(container, text=_("Taille (cm) :"), width = size_lbl)
-    size_label.grid(
-        row=2,
-        column=0,
-        sticky = "nsew"
-    )
-    gsm_label = tk.Label(container, text=_("Téléphone :"), width=size_lbl)
-    gsm_label.grid(
-        row=3,
-        column=0,
-        sticky="nsew"
-    )
+    for label, code in label_text.items():
+        label = tk.Label(container, text=_(code), width=size_lbl)
+        label.grid(row=lb_row, column=lb_col, sticky="nsew")
+        lb_row += 1
 
     # Entry
 
-    first_entry = tk.Entry(container, width = size_ety)
+    first_entry = tk.Entry(container, width=size_ety)
     first_entry.grid(
-        row = 0,
-        column = 1
+            row=0,
+            column=1
     )
 
-    name_entry = tk.Entry(container, width = size_ety)
+    name_entry = tk.Entry(container, width=size_ety)
     name_entry.grid(
-        row = 1,
-        column=1
+            row=1,
+            column=1
     )
 
-    size_entry =tk.Entry(container, width = size_ety)
+    size_entry = tk.Entry(container, width=size_ety)
     size_entry.grid(
-        row = 2,
-        column = 1
+            row=2,
+            column=1
     )
 
-    gsm_entry =tk.Entry(container, width = size_ety)
+    gsm_entry = tk.Entry(container, width=size_ety)
     gsm_entry.grid(
-        row = 3,
-        column = 1
+            row=3,
+            column=1
     )
-
     # Dictionary Entries
 
     all_entries = {
-        "First": first_entry,
-        "Name": name_entry,
-        "Size": size_entry,
-        "GSM": gsm_entry
+            "First": first_entry,
+            "Name": name_entry,
+            "Size": size_entry,
+            "GSM": gsm_entry
     }
 
     #  Button Printing
@@ -246,7 +233,7 @@ def build_footer(container):
     container.rowconfigure(0, weight=1)
     container.columnconfigure(0, weight=1)
 
-    footer_label = tk.Label(container, text="© Copyright - WALIBI BELGIUM - v0.2", anchor="center", justify="center")
+    footer_label = tk.Label(container, text="© Copyright - WALIBI BELGIUM - v1", anchor="center", justify="center")
     footer_label.grid(
         row=0,
         column=0,
